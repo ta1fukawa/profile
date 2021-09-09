@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+body {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+.with-underline {
+    position: relative;
+    margin-bottom: 100px;
+}
+
+.with-underline::after{
+   content: " ";
+   display: block;
+   width: 80px;
+   height: 1px;
+   background-color: #212529;
+   position: absolute;
+   bottom: -40px
+}
+
+.sideline {
+    display: flex;
+    margin-top: 100px;
+    align-items: center;
+    justify-content: center;
+}
+
+.sideline:before, .sideline:after {
+    border-top: 1px solid;
+    content: "";
+    flex-grow: 1;
+    width: 3em;
+}
+
+.sideline:before {
+    margin-right: 1rem;
+}
+
+.sideline:after {
+    margin-left: 1rem;
+}
+
+.reverse {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
+
+.atmark {
+    color: var(--bs-light);
+}
+
+.atmark::after {
+    margin-left: -1ex;
+    content: "@";
+    color: #212529;
+}
+
+.dot {
+    display: inline-block;
+    width: 0.7ex;
+}
+
+@media (min-width: 1200px) {
+    header {
+        position: fixed;
+        width: 100vw;
+    }
+
+    .bd-container {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr 4fr 1fr;
+    }
+
+    .bd-aside {
+        grid-column: 1 / 2;
+    }
+
+    .floating {
+        position: sticky;
+        top: 80px;
+        z-index: 2;
+    }
+
+    .nav-item {
+        display: inline-block;
+        padding: 2px 0 2px 10px;
+        margin: 4px 0;
+        border-left: solid 4px var(--bs-gray);
+    }
+
+    .nav-item:hover {
+        color: var(--bs-gray-dark);
+        border-color: var(--bs-gray-dark);
+    }
+
+    .bd-content {
+        grid-column: 2 / 3;
+        padding: 120px 0;
+    }
+}
+
+@media (max-width: 1200px) {
+    .bd-aside {
+        display: none;
+    }
+
+    .bd-content {
+        padding: 40px 20px;
+    }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
