@@ -1,0 +1,675 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>トレンド比較編</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+	@media (prefers-color-scheme: dark) {
+		body {
+			background-color: rgb(25, 25, 25);
+			color: rgba(255, 255, 255, 0.81);
+		}
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="efdde1f9-0cc6-4549-8253-6ee5f32f321a" class="page sans"><header><h1 class="page-title">トレンド比較編</h1></header><div class="page-body"><h1 id="356051e2-a0cd-44ae-8f07-b475d0a946f7" class="">開発言語</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e6ae7f03-2516-4b57-9783-5dce8b4669d9"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>結論</strong>　Pythonを使え</div></figure><p id="02ef6419-6dcc-4d09-97d9-4f199e0ddb43" class="">機械学習関連でよく用いられるプログラミング言語はPython、MATLAB及びR言語がある。</p><h3 id="594b7d62-a8a5-4314-b9d9-51985dabb71c" class=""><details open=""><summary>Python</summary></details></h3><div class="indented"><p id="bbaae900-b05f-4446-83f5-c8134318b85c" class="">Pythonのシェアは他の言語と10倍近い差をつけてトップとなっている。</p><p id="dda0d72b-fbf8-4794-a3a6-6f66092baa2a" class="">他の言語に比べて複雑な記述を必要とするが、高度な分析が可能であるため、開発言語としてはPythonを使用されることが多い。</p></div><h3 id="ab5cfaff-cf52-49f1-8c51-cd38d8f86635" class=""><details open=""><summary>MATLAB</summary></details></h3><div class="indented"><p id="af56d3f3-8f75-400c-aa6b-42e887d81167" class="">数学的処理を行うためのプログラミング言語。</p><p id="dae9d3ad-e937-4f08-abef-0c9bce493adf" class="">高機能であるものの有料（学生は無料）であるため、使用する人が限られる。</p></div><h3 id="3d8991b1-859b-4610-aa43-0ff3b145b28c" class=""><details open=""><summary>R言語</summary></details></h3><div class="indented"><p id="323c82c5-9c73-43cc-958d-c0abb23f4d28" class="">統計解析を行うためのプログラミング言語。</p><p id="1b4914ba-5f30-453e-a4af-7345db4d662a" class="">Pythonに比べて利用率は高くない。</p></div><h1 id="802e63fb-9514-46f0-8e26-339c4deb3b85" class="">Pythonのコードの形式</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="f7f58a05-251f-4526-afd2-9c2777d8091f"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>結論</strong>　通常はスクリプト形式、簡易的な実験はノートブック形式を使え</div></figure><p id="b06bc75d-4aeb-40c5-afa1-512d58ce353b" class="">Pythonは他のプログラミング言語と同じように、テキスト形式で記述して実行する形式（.py）と、Jupyterノートブックというものに記述して実行する形式（.ipynb）がある。</p><p id="14119c6f-234e-415f-86d2-09a762391e67" class="">ここではそれぞれスクリプト形式、ノートブック形式と呼ぶ。</p><figure id="6ab68b21-b244-400a-bb75-de6cdf00eb02" class="image"><a href="py-image.png"><img style="width:1184px" src="py-image.png"/></a><figcaption>左がスクリプト形式、右がノートブック形式。</figcaption></figure><p id="0172bb81-cd1b-448f-86b5-ec716c47432e" class="">それぞれに利点があるため、これらを使い分けることができるとよい。</p><h3 id="379936d8-3b04-4609-803c-e73ec1e9d414" class=""><details open=""><summary>スクリプト形式（.py）</summary></details></h3><div class="indented"><p id="f59f2f8c-dfd0-4815-9004-a9d68697f222" class="">コードの密度が高いため、長いコードを書いたときの一覧性がよい。</p><p id="258498f4-2fc4-41fc-8f7a-72b8b923cacf" class="">またスクリプト形式で書いたコードはモジュールとして別のファイルから読み込むことができるため、大規模なコードに適している。</p><p id="d11c3f90-faac-4c21-8ba9-eea462bfa8f9" class="">また開発環境によっては、スクリプト形式のほうが細かなデバッグができることが多い。</p><p id="f2494499-ad8c-48dc-92c0-5a489a3b8a76" class="">単なるテキストファイルのため、LinuxなどのCUIからでもプログラムを作成することが可能。</p></div><h3 id="ab3b8e6c-9142-44a4-b8c5-1b47c0e0c767" class=""><details open=""><summary>ノートブック形式（.ipynb）</summary></details></h3><div class="indented"><p id="323d0100-5683-4b01-a653-adab3257463d" class="">コードの間隔が広く、装飾的なコメントも入れられるため、視覚的に理解しやすい。</p><p id="037488a0-5a3f-4568-973a-f906d0199b08" class="">セルと呼ばれる複数のコード単位で実行するため、プログラムの全体が完成していなくても実行を開始することができる。</p><p id="549847f9-1382-455e-b3a3-7ccaac63a643" class="">そのため簡易的なコードやテストの実行などに向いている。</p><p id="bdd5fc36-8077-4592-b97c-d676037e2bc6" class="">Jupyter NotebookやGoogle Colab、VSCodeなどの環境で使用できる。</p></div><h1 id="2e0875a0-b49e-4465-8b8e-12a23aba7dd6" class="">開発環境</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="79296d40-c2c2-43e9-97c8-0f7842880c21"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>結論</strong>　通常はVisual Studio Code、必要に応じてGoogle Colabを使え</div></figure><p id="401fd9f8-4a04-482b-b21c-0b007d3feb2f" class="">一般的な環境としてはVisual Studio Code（VSCode）、Google Colab及びJupyter Notebookの3つが挙げられる。</p><h3 id="3b249d3a-e333-4476-b149-d5d2aee01a33" class=""><details open=""><summary>Visual Studio Code（VSCode）</summary></details></h3><div class="indented"><p id="f4a0c498-ca89-459f-a639-e0088bc61110" class="">標準で非常に多くの機能を有し、拡張機能でさらに機能を追加することができる。</p><p id="559deacf-de92-4d60-bc51-99c33ca31608" class="">デバッグを支援する機能が充実しているため、世界的にも非常に高いシェアを誇っている。</p><p id="420e0d8f-c7b3-4f18-ad21-f9015afd7542" class="">迷ったらこの開発環境を使えば間違いない。</p></div><h3 id="cdddf5cd-6136-4481-a39b-bc6eb143b2cf" class=""><details open=""><summary>Google Colab</summary></details></h3><div class="indented"><p id="50dd3870-f1c2-4a43-9516-03fd0726fc43" class="">Googleの提供する強力なサーバを利用できる開発環境。</p><p id="8196cb44-0b30-450d-8089-a9436192d0ea" class="">コードはノートブック形式に限られ、時間制限などもあるが、手軽に利用できる。</p></div><h3 id="fcb2be5b-169c-4a53-9718-efad827fbe18" class=""><details open=""><summary>Jupyter Notebook</summary></details></h3><div class="indented"><p id="2e259619-5401-41d7-b229-a46a5bfd07cf" class="">ノートブック形式のコードを書くための原始的な環境。</p><p id="7aee8b6c-4308-4662-81dc-49fb728059f2" class="">現在はVSCodeでもノートブック形式を扱えるため、わざわざこの環境をセットアップしてまで利用する必要はない。</p></div><h1 id="ed97618b-32f6-459e-b874-2eaec32d765e" class="">機械学習フレームワーク</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="ac28e063-d4d3-4094-9957-0e8fd561883b"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>結論</strong>　TensorFlowとPyTorchのどっちでもいいが、両方覚えろ</div></figure><p id="614f30c5-2293-47b2-a255-e6f53d6bc847" class="">Pythonで使用できる機械学習のフレームワークで、主流なものとしてTensorFlow及びPyTorchが挙げられる。</p><p id="b479ac76-29b8-42fa-ac6d-9065ae3c7b19" class="">両者ともよく使われているため、どちらを使用してもよい。</p><p id="2fd3c2d5-4901-431d-bab0-0ed34cd96c4e" class="">しかし公開されているコードはこのどちらかでしか書かれていないため、どちらも理解できるようになっておかなければならない。</p><h3 id="9db2ae39-7f8b-47ce-b545-17e9fda4700b" class=""><details open=""><summary>TensorFlow</summary></details></h3><div class="indented"><p id="7944dc9c-4178-4d31-9aba-34fe687c96fa" class="">Googleが開発した機械学習のフレームワーク。</p><p id="aa4c49dc-e9bc-4e91-be36-ad4945468f55" class="">実際に使用する際は、TensorFlowのラッパーであるKerasを使うことが多い。</p><p id="ca75945d-364c-4f79-aa4a-713c3222ae1f" class="">PyTorchに比べて簡単に実装ができるようになっている。</p></div><h3 id="b519b048-551c-47b3-a0e4-59c3aa61787e" class=""><details open=""><summary>PyTorch</summary></details></h3><div class="indented"><p id="4cb8743b-a62a-47b6-9496-a94720a6fd87" class="">Facebook（現：Meta）が開発した機械学習のフレームワーク。</p><p id="8c5888c3-d410-4e2d-a13c-80ad92df36f3" class="">TensorFlowに比べてデバッグがしやすく、また機能の拡張を行いやすいため、研究者で使用している人が多い。</p></div><h1 id="9b988486-8b5d-4d14-99be-f608c6726c68" class="">コード管理（Git）</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1cbc0542-e235-49d7-8b54-8b10d7037f4a"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>結論</strong>　わからないならGitHubを使え</div></figure><p id="7ca15d70-7bd7-456c-b767-11463a4b6124" class="">プログラムコードを管理するための方法の一つとして、Gitを用いる方法がある。</p><p id="d7175d63-6805-4bb6-bd31-3732204b3f04" class="">「Gitとは何か」は各自で調べてほしいが、Gitを使用することで過去のコードを管理できる。</p><p id="e59bee97-98ca-40a0-98d9-9058fa5f8066" class="">Gitに対応したホスティングサービスとしてはGitHubとGitLabがあるが、大差はない。</p><h3 id="b0387a7e-8e30-4d7f-8c02-f2ea477600bb" class=""><details open=""><summary>GitHub</summary></details></h3><div class="indented"><p id="2cb54740-8d25-4b91-9d53-89916726e5b6" class="">GitLabよりも古くから存在しており、利用者が多い。</p><p id="10e46735-3f52-40d6-89be-6f7ab1698ef4" class="">Microsoftが買収しており、VSCodeとの連携にも期待ができる。</p></div><h3 id="e85cec85-8fef-431b-ba63-eedac32ded58" class=""><details open=""><summary>GitLab</summary></details></h3><div class="indented"><p id="b97d5a8d-d572-4225-9d2a-684114ca3d17" class="">比較的新参のサービスで、GitHubにない機能もある。</p><p id="fb8fd365-983a-4c60-8039-868a59eb56a8" class="">ただ高度な開発をしないのであれば、わざわざGitLabを使う必要はない。</p></div></div></article></body></html>
