@@ -1,0 +1,904 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>コードテクニック編</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+	@media (prefers-color-scheme: dark) {
+		body {
+			background-color: rgb(25, 25, 25);
+			color: rgba(255, 255, 255, 0.81);
+		}
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="7c64df18-6cd6-4817-8302-1f6dd9510cf6" class="page sans"><header><h1 class="page-title">コードテクニック編</h1></header><div class="page-body"><p id="6e1dfbee-cee5-46cd-801a-9a23077c97ee" class="">書いてある内容がそれより上に書いてある内容に依存していることがあるので、上から順に読んで下さい。</p><h1 id="c817e8aa-bf44-4192-b463-9ecc160dcf46" class="">ディレクトリ構成</h1><p id="6688f9f3-35e1-4922-99d5-b75b23fcf9cc" class="">開発環境には以下のディレクトリ構造を用意する。</p><pre id="20ad11c5-8898-4941-8d86-3d0b465c229c" class="code"><code>project
+├─code     # Pythonのコードが入る
+├─config   # 実行時に読み込む設定ファイルが入る
+├─dataset  # データセットが入る（シンボリックリンク可）
+├─dest     # 実行ログや出力ファイルが入る
+├─table    # 実行IDとその説明が入る
+└─test     # Pythonのテスト用コードが入る</code></pre><p id="c0662f65-7edd-4541-9f69-79c50da6bbdc" class="">この状態でcode内にPythonファイルを作成し、コーディングを開始する。</p><p id="1aed7abf-05a0-4ef2-adee-bd793d332e02" class="">以下に記述してあるテクニックに応じて、code以外のディレクトリを使用していく。</p><h1 id="ef6c2709-f515-49e5-9c53-036fe17cf4eb" class="">実行管理</h1><p id="75698977-2c48-471d-9a63-3c12276b3496" class="">研究ではかなりの回数のプログラムを実行し、コードの書き換えや設定の変更が頻繁に発生する。</p><p id="8b992df1-6f10-485d-92e0-3ac93a1516cb" class="">それぞれの結果を管理するのは難しいため、以下の2種類のIDを発行して管理する。</p><ul id="587c8702-a915-4784-a74c-5aaaba27b58d" class="bulleted-list"><li style="list-style-type:disc">コードID：ファイル名をもとに決定</li></ul><ul id="6f2687e7-6db1-4bee-b527-93b648c2e0ef" class="bulleted-list"><li style="list-style-type:disc">実行ID：時刻をもとに決定</li></ul><p id="fa9ec4e7-976a-4f7a-a39b-336c18021a68" class="">実際の設定方法は次のようになる。</p><pre id="c1328009-1c18-4c5b-902f-61aad2ea07fb" class="code"><code>import os
+import datetime
+
+code_id = os.path.splitext(os.path.basename(__file__))[0]    # 拡張子を除いたファイル名
+run_id  = datetime.datetime.now().strftime(&#x27;%Y%m%d/%H%M%S&#x27;)  # yyyyMMdd/HHmmss</code></pre><p id="ec4b113c-398f-4daf-a56a-ac275a1f9cc1" class="">これで、同時に同じプログラムを開始しない限り異なるIDとなり、実行IDについては昇順にソートしても実行順に並ぶことになる。</p><p id="62ec6c4e-e601-4462-84fe-099a03ea5df6" class="">これらのIDをもとに以下のように出力先ディレクトリを作成し、ログや実行結果をすべてここに出力するようにしたい。</p><pre id="d8ac7ebc-2e1d-4f06-a0cb-2d6442a71389" class="code"><code>project
+├─dest
+  ├─code_id   # コードごとのディレクトリ
+    └─run_id  # 各種出力ファイルの出力先ディレクトリ</code></pre><p id="7f4b4a34-3afe-43d7-9b79-92d25c473d28" class="">このdest/<em>code_id</em>/<em>run_id</em>のディレクトリのことを、ここではターゲットディレクトリと呼ぶことにする。</p><p id="c8662da0-73e0-47cc-a067-b195a484d2d4" class="">ターゲットディレクトリを作成するには、以下のように記述する。</p><pre id="9e218126-d770-4e13-8741-125cdf220c9d" class="code"><code>import pathlib
+
+target_dir = pathlib.Path(&#x27;dest&#x27;, code_id, run_id)
+target_dir.mkdir(parents=True)
+
+# osモジュールを使用して以下のようにも書ける（非推奨）
+# target_dir = os.path.join(&#x27;dest&#x27;, code_id, run_id)
+# os.makedirs(target_dir, parents=True)</code></pre><p id="c2a55731-e3bd-4104-b938-c48acd67e15f" class="">osモジュールを使用して記述してもいいが、pathlibモジュールを使ったほうが何かと便利で良い。</p><p id="1ece26a8-5821-4cd9-8c7e-07f9eba86c9d" class="">なお、今回は実行IDのフォーマットが<code>%Y%m%d/%H%M%S</code>と日付と時間の間にスラッシュが入っているが、これによりターゲットディレクトリが階層化している。</p><p id="306e3285-1bbf-4b84-b358-e64b437fc33f" class="">つまり、実際は次のようなディレクトリが作られる。</p><pre id="4629e51f-893c-4b36-b9c3-4f0d4ffba198" class="code"><code>project
+├─dest
+  ├─code_id
+    └─yyyyMMdd  # 日付ごとのディレクトリ
+      └─HHmmss  # 時刻ごとのディレクトリ</code></pre><p id="f4a9e757-c636-4c67-b6b9-86b4285b56e5" class="">このようにディレクトリを日付ごとに分けて管理することができる。</p><p id="9e272b3c-513f-4b6b-b5bc-2a9b08add27a" class="">そのため、コードの実行頻度に応じて以下のように設定する。</p><ul id="3ffec769-0622-4ce1-8fd7-ff69cc265751" class="bulleted-list"><li style="list-style-type:disc">実行が数回に限られる：<code>%Y%m%d_%H%M%S</code>（アンダースコアは階層化されない）</li></ul><ul id="35b9b704-8e1a-4380-b231-28ead3b9cadb" class="bulleted-list"><li style="list-style-type:disc">何度か実行する：<code>%Y%m%d/%H%M%S</code></li></ul><ul id="4fcb60f9-6b64-410f-8409-444d88079421" class="bulleted-list"><li style="list-style-type:disc">かなり多い回数実行する：<code>%Y%m/%d/%H%M%S</code>（年をまたぐことは極めて稀なので月ごとに）</li></ul><h1 id="ab1742b4-04a5-46d3-ab78-e9b1ff051592" class="">コードのコピー</h1><p id="e341c9c3-a34d-41d7-b62b-0fb1521e0037" class="">コードは頻度に変更されるため、その変更内容を実行IDと紐づけて管理するのは手間がかかる。</p><p id="1ce2c2b0-bb0e-4811-869d-f40e9c8fab96" class="">そこで、実行時のコードをターゲットディレクトリにコピーしておくことで、遡ってコードを参照しやすくする。</p><p id="ecc89e8e-1fb1-4084-abbd-37f2ceb456d0" class="">実装としては以下のように記述する。</p><pre id="cde8230f-c69e-4b27-85bf-abec3859bb41" class="code"><code>import shutil
+
+def copy_codes(
+    src_dir: pathlib.Path,
+    dst_dir: pathlib.Path,
+    ext_list: list = [&#x27;.py&#x27;, &#x27;.sh&#x27;, &#x27;.yml&#x27;, &#x27;.yaml&#x27;, &#x27;.json&#x27;],
+):
+    dst_dir.mkdir(parents=True)
+    for src_path in src_dir.glob(&#x27;**/*&#x27;):
+        if src_path.is_dir():
+            continue
+        if src_path.suffix in ext_list:
+            dst_path = dst_dir / src_path.relative_to(src_dir)
+            dst_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(src_path, dst_path)
+
+copy_codes(&#x27;code&#x27;, target_dir / &#x27;code&#x27;)</code></pre><p id="52abfad5-9352-4f25-be42-083f03a99856" class="">今回はわかりやすく関数化した。</p><p id="9ad5b05e-c5ab-4d45-964c-f99cc2fa39e3" class="">src_dirに指定されたディレクトリ以下にある、特定拡張子のファイルをdst_dirのディレクトリ以下にコピーしている。</p><h1 id="52c4a15a-6ee5-439d-9f90-efae2adf75d2" class="">ロギング</h1><p id="b1630389-3684-41ff-af39-219ec13bede8" class="">ロギングとは、ログを出すことであり、そのシステム自体をロガーという。</p><p id="fd61586d-d169-4152-a455-7bbe1e2d3d06" class="">Pythonのprint関数では画面にしかテキストが出力されないため、画面を閉じると様々な情報が失われてしまう。</p><p id="77a38a70-d802-4fbb-a2e7-7ec1766b1b3e" class="">そこで、loggingモジュールを使用してログを出力するようにすることで、あとから実行内容を振り返られうようにする。</p><p id="08fce233-f1bd-402f-8339-c18884defbf0" class="">実装していく前に、pip3でcoloredlogsモジュールをインストールしておく。</p><pre id="2ae7d406-06e9-4fe1-b63b-4c136abe9091" class="code"><code>pip3 install coloredlogs</code></pre><p id="81817fc2-c2f0-4810-8b4a-3e6615141727" class="">コードは以下のように記述する。</p><pre id="4c333c18-8df3-4b5b-b489-5d5c2bf2a58e" class="code"><code>import logging
+import coloredlogs
+
+def init_logging(
+    log_path: pathlib.Path,
+    mode=&#x27;w&#x27;,
+):
+    logger = logging.getLogger(&#x27;&#x27;)
+
+    stdout_fmt  = &#x27;%(asctime)s %(levelname)s: %(message)s&#x27;
+    coloredlogs.install(level=&#x27;INFO&#x27;, logger=logger, fmt=stdout_fmt)
+
+    logflie_fmt = &#x27;%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s: %(message)s&#x27;
+    handler = logging.FileHandler(log_path, mode=mode)
+    handler.setFormatter(logging.Formatter(logflie_fmt))
+    logger.addHandler(handler)
+    logger.setLevel(logging.DEBUG)
+
+init_logging(target_dir / &#x27;default.log&#x27;)
+logging.info(f&#x27;CODE/RUN: {code_id}/{run_id}&#x27;)  # 実際に実行IDたちをログに出力してみる</code></pre><p id="f32f1ba1-3db2-4943-818e-8df3cc8291e7" class="">これでターゲットディレクトリの下にdefault.logというログファイルが作成された。</p><p id="e06098ae-722d-47f2-9473-8faafc202314" class="">ログには何種類かの警告レベルがあるが、実際には以下の2つを使い分ければ良い。</p><ul id="15815e8d-c129-463e-bd85-04084ccfe938" class="bulleted-list"><li style="list-style-type:disc">logging.debug(’テキスト’)：画面には表示せず、ログファイルにのみ書き込まれる</li></ul><ul id="4ea31e6e-99bc-46f5-a4f8-1b8bbac5971f" class="bulleted-list"><li style="list-style-type:disc">logging.info(’テキスト’)：ログファイルに書き込みつつ、画面にも表示する</li></ul><h1 id="a18467b0-1778-4e82-99dc-923c706762a3" class="">エラーのロギング</h1><p id="f951773f-4723-476e-8236-2678e1e20ce1" class="">上のロギングを設定しただけでは、エラーが起きたときにエラー内容をログファイルに書き込んでもらえない。</p><p id="1be81cde-1e68-4ed9-bd32-b08d585b212c" class="">これではログとして不十分なので、エラー内容を出力するように設定する。</p><pre id="889217bc-3a5d-4671-bb14-d96366829c71" class="code"><code>import traceback
+
+def main():
+    pass  # メインの処理がここに入る
+
+if __name__ == &#x27;__main__&#x27;:
+    # (中略)
+    init_logging(target_dir / &#x27;default.log&#x27;)
+
+    try:
+        main()
+    except Exception as e:  # 任意のエラーが起きたとき
+        logging.error(traceback.format_exc())  # エラーのトレースバックをロギング
+        raise e  # エラーを再度上に投げる
+    finally:
+        logging.info(&#x27;Done&#x27;)  # エラーが起きたとしてもロガーが正常終了したことを示す
+        logging.shutdown()    # ロガーを明示的に終了させる</code></pre><p id="6d850245-429b-46b3-9e9c-ddbf224bff08" class="">traceback.format_exc()によって、エラー内容を取得した上でログファイルに書き込んでいる。</p><h1 id="f46090d2-76cd-4b42-90d8-5316773e3f0c" class="">グローバル変数の拡張</h1><p id="58446623-35ee-45ca-a584-e21588c13659" class="">ターゲットディレクトリのパスのようなコード全体で共有したい値を、いちいち引数として関数に渡すのは手間がかかる。</p><p id="70e8883b-6911-4ffe-927d-8dcc1cd8851e" class="">そこで、すべてのファイルのすべての関数内で共有できるようなグローバル変数があると良い。</p><p id="b48b8a71-5457-49b2-ac25-c4d7f5b008f2" class="">Pythonの標準機能としてそのようなグローバル変数の機能は定義されていないため、特殊な方法を用いて実現する。</p><p id="95b9f66f-b21c-40de-9804-3666fcda0e07" class="">まずは以下のように、global_value.pyという名前の空のファイルを作成する。</p><pre id="5e994c88-9a4d-4489-b66c-0130e7691d0e" class="code"><code>project
+├─code
+  ├─main.py          # メインファイル
+  ├─sub.py
+  ├─global_value.py  # 中身が空のファイル</code></pre><p id="17356919-f185-4eea-93a9-53b8017fe79c" class="">次に、main.py内で以下のように記述する。</p><pre id="a106d3e1-e5ca-4827-ab31-0c0fadd91215" class="code"><code>import global_value as g
+
+g.code_id = os.path.splitext(os.path.basename(__file__))[0]
+g.run_id  = datetime.datetime.now().strftime(&#x27;%Y%m%d/%H%M%S&#x27;)
+g.target_dir = pathlib.Path(&#x27;dest&#x27;, g.code_id, g.run_id)
+print(g.target_dir)  # 変数から値を取り出す</code></pre><p id="060e6cf6-14f0-4a65-b35e-c3c53b72c982" class="">このように、空のモジュールに対して適当な変数名を指定することで、値をセットしたり取り出したりすることができる。</p><p id="85b2588e-e182-450d-b952-2d550de54ee7" class="">この変数は、別のファイルや別の関数からでもアクセスできる。</p><p id="31930ecf-756d-4cfe-b9f3-0a19b19743c1" class="">そのため、例えばsub.pyで同様にモジュールを読み込んだ上で、以下のような関数を定義して呼び出したとしても、意図したとおりに動作する。</p><pre id="f8ffb647-03b7-418c-9b83-fb5a952bf682" class="code"><code>import global_value as g
+
+def show_target_dir():
+    print(g.target_dir)
+
+show_target_dir()  # main.pyで指定したg.target_dirの中身が出力される</code></pre><h1 id="7f841967-1240-4322-ada9-091f98bd06d8" class="">引数</h1><p id="b28d2bdc-2c18-446f-bd4d-3b8551903b1d" class="">パラメータを変えて複数の実験をしたいとき、毎回コード内のパラメータを変えるのは美しくない。</p><p id="0838a8d3-5da7-4e83-b206-b45ea8fa9ed5" class="">そこで、まずはパラメータを引数として与えることを考える。</p><p id="377e2e13-a353-42cb-b74b-32cabfc04c4c" class="">code/main.pyの実装は次の通りである。</p><pre id="49935b85-b626-4ba2-804d-838207ee5b8b" class="code"><code>import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument(&#x27;-p&#x27;, &#x27;--my_param&#x27;, type=int, default=0)
+args = parser.parse_args()
+
+print(args.my_param)</code></pre><p id="a2c8dea4-22ad-4871-92bb-47b6d1ea5ee7" class="">このように設定した上で、次のようにコードを呼び出す。</p><pre id="937f3382-f4a2-4d0d-93ce-5e6dcb16e687" class="code"><code>python3 code/main.py -p 10</code></pre><p id="25f737ce-729f-4258-9727-8a13f875cdf1" class="">すると、引数として指定した10がargs.my_paramに設定され、10が出力されるようになる。</p><h1 id="a2a5192f-e24c-410b-9ea4-cf82c06b37c8" class="">設定ファイル</h1><p id="dd9fec6e-3960-4254-9e61-e7e62447e4fe" class="">上に書いた引数でパラメータをすべて指定してもいいが、パラメータ数が増えたときに面倒になる。</p><p id="0a3995e0-d4db-42b2-bf8b-3fda84927978" class="">そこでパラメータを設定ファイルとして用意しておき、実行時に設定ファイルを指定することでパラメータをコントロールする。</p><p id="451e9197-2b64-47f5-b643-ecd4c5808184" class="">例えば、次のような設定ファイルをconfigs/main.ymlとして用意する。</p><pre id="baaa2375-e974-4267-bc23-dff5978add0f" class="code"><code>my_param: 10</code></pre><p id="d584961f-7fda-4531-b563-c3f2322f1afb" class="">これはYAMLという形式のファイルであるが、JSONなどを使っても同様のことができる。</p><p id="df546ee6-af3a-4060-9abf-e8b2046761fa" class="">code/main.pyでは、このファイルのパスを引数として指定することで、自動的に読み込まれるようにしたい。</p><p id="057362e1-063f-46ad-b3d4-5546fb112f43" class="">実装していく前に、pip3でyamlモジュールをインストールしておく。</p><pre id="8b781652-90ec-4fb9-939d-37a52df29173" class="code"><code>pip3 install pyyaml</code></pre><p id="d4e359bf-ca2d-4e78-b3e7-38b26f898151" class="">実装は次の通りである。</p><pre id="3221a02b-c16a-4422-9625-6461e854da36" class="code"><code>import yaml
+
+parser = argparse.ArgumentParser()
+parser.add_argument(&#x27;-c&#x27;, &#x27;--config_path&#x27;, type=pathlib.Path, default=&#x27;config/main.yml&#x27;)
+args = parser.parse_args()
+
+config = yaml.load(args.config_path.open(mode=&#x27;r&#x27;), Loader=yaml.FullLoader)  # YAMLファイルを読み込み
+for k, v in config.items():
+    setattr(g, k, v)  # gの中の変数として展開
+
+print(g.my_param)  # 簡単にパラメータへアクセスできる</code></pre><p id="f9b47e07-68e4-489c-830e-ae89b9a54ca2" class="">変数config自体は辞書型だが、それをgの中の変数として展開しているため、グローバル変数として簡単にアクセスできるようにしている。</p><h1 id="0fa34cd9-3c06-49d9-acdc-dd939428e57f" class="">状態ファイル</h1><p id="32499947-94ad-4504-809a-7fc1c3b0177c" class="">上の方で実行管理をしたが、実行IDとその実行が何をしているかという意味との対応付はできていなかった。</p><p id="6f0a082a-9eb4-4f06-932f-f4cdd9f0c0c4" class="">あとから実行IDを探すことを考えると、何をしているかの説明と実行IDをまとめた表があると便利である。</p><p id="d128a5bc-0a04-46ad-be48-079617a0dcf2" class="">そこで、以下のように記述をする。</p><pre id="03c47766-df7a-4362-8b30-a2c0ffcc9c8b" class="code"><code>import csv
+
+parser = argparse.ArgumentParser()
+parser.add_argument(&#x27;-n&#x27;, &#x27;--note&#x27;, type=str, default=&#x27;&#x27;)
+args = parser.parse_args()
+
+def set_note(
+    note: str = &#x27;&#x27;,
+):
+    note_path = pathlib.Path(&#x27;table&#x27;, f&#x27;{g.code_id}.csv&#x27;)  # code_idの名前のCSVファイルを作成
+    if not note_path.exists():  # 初回のみヘッダ行を挿入
+        with note_path.open(mode=&#x27;w&#x27;) as f:
+            writer = csv.writer(f)
+            writer.writerow([&#x27;code_id&#x27;, &#x27;run_id&#x27;, &#x27;note&#x27;])
+    with note_path.open(mode=&#x27;w&#x27;) as f:
+        writer = csv.writer(f)
+        writer.writerow([g.code_id, g.run_id, note])  # IDと説明文を書いた行を挿入
+
+set_note(args.note)</code></pre><h1 id="8a189cbc-4134-40ee-a4bc-09dccf890fb9" class="">本ページのまとめ</h1><p id="11b958f3-cacb-49f3-9788-5d566402ee11" class="">最終的には以下のディレクトリ構造になっている。</p><pre id="22fd0331-fa78-4023-a1dd-748e4640b064" class="code"><code>project
+├─code     # Pythonのコードが入る
+│ ├─main.py          # メインのコードファイル
+│ └─global_value.py  # グローバル変数用の空のコードファイル
+├─config   # 実行時に読み込む設定ファイルが入る
+│ └─main.yml         # YAML形式で書かれた設定ファイル
+├─dataset  # データセットが入る（シンボリックリンク可）
+├─dest     # 実行ログや出力ファイルが入る
+│ └─main        # コードIDのディレクトリ
+│   └─20XXMMdd  # 実行IDのディレクトリ（日付）
+│     └─HHmmss  # 実行IDのサブディレクトリ（時刻）
+│       ├─code  # 実行時のコードのコピーが入る
+│       │ ├─main.py
+│       │ └─global_value.py
+│       └─default.log  # ログファイル
+├─table    # 実行IDとその説明が入る
+│ └─main.csv         # 実行IDと説明の一覧ファイル
+└─test     # Pythonのテスト用コードが入る</code></pre><p id="a2012136-71c5-4da1-8ccf-dd901eeb47df" class="">code/main.pyファイルは次のようになっている。</p><pre id="9f8e25e2-ffd6-4502-94cb-96d76d80712c" class="code"><code>import argparse
+import csv
+import datetime
+import logging
+import os
+import pathlib
+import shutil
+import traceback
+
+import coloredlogs
+import yaml
+
+import global_value as g
+
+def main():
+    pass  # メインの処理がここに入る
+
+def copy_codes(
+    src_dir: pathlib.Path,
+    dst_dir: pathlib.Path,
+    ext_list: list = [&#x27;.py&#x27;, &#x27;.sh&#x27;, &#x27;.yml&#x27;, &#x27;.yaml&#x27;, &#x27;.json&#x27;],
+):
+    dst_dir.mkdir(parents=True)
+    for src_path in src_dir.glob(&#x27;**/*&#x27;):
+        if src_path.is_dir():
+            continue
+        if src_path.suffix in ext_list:
+            dst_path = dst_dir / src_path.relative_to(src_dir)
+            dst_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(src_path, dst_path)
+
+def init_logging(
+    log_path: pathlib.Path,
+    mode=&#x27;w&#x27;,
+):
+    logger = logging.getLogger(&#x27;&#x27;)
+
+    stdout_fmt  = &#x27;%(asctime)s %(levelname)s: %(message)s&#x27;
+    coloredlogs.install(level=&#x27;INFO&#x27;, logger=logger, fmt=stdout_fmt)
+
+    logflie_fmt = &#x27;%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s: %(message)s&#x27;
+    handler = logging.FileHandler(log_path, mode=mode)
+    handler.setFormatter(logging.Formatter(logflie_fmt))
+    logger.addHandler(handler)
+    logger.setLevel(logging.DEBUG)
+
+def set_note(
+    note: str = &#x27;&#x27;,
+):
+    note_path = pathlib.Path(&#x27;table&#x27;, f&#x27;{g.code_id}.csv&#x27;)
+    if not note_path.exists():
+        with note_path.open(mode=&#x27;w&#x27;) as f:
+            writer = csv.writer(f)
+            writer.writerow([&#x27;code_id&#x27;, &#x27;run_id&#x27;, &#x27;note&#x27;])
+    with note_path.open(mode=&#x27;w&#x27;) as f:
+        writer = csv.writer(f)
+        writer.writerow([g.code_id, g.run_id, note])
+
+if __name__ == &#x27;__main__&#x27;:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(&#x27;-c&#x27;, &#x27;--config_path&#x27;, type=pathlib.Path, default=&#x27;config/main.yml&#x27;)
+    parser.add_argument(&#x27;-n&#x27;, &#x27;--note&#x27;, type=str, default=&#x27;&#x27;)
+    args = parser.parse_args()
+
+    g.code_id = os.path.splitext(os.path.basename(__file__))[0]
+    g.run_id  = datetime.datetime.now().strftime(&#x27;%Y%m%d/%H%M%S&#x27;)
+    g.target_dir = pathlib.Path(&#x27;dest&#x27;, g.code_id, g.run_id)
+
+    copy_codes(&#x27;code&#x27;, g.target_dir / &#x27;code&#x27;)
+    init_logging(g.target_dir / &#x27;default.log&#x27;)
+    set_note(args.note)
+
+    config = yaml.load(args.config_path.open(mode=&#x27;r&#x27;), Loader=yaml.FullLoader)
+    for k, v in config.items():
+        setattr(g, k, v)
+
+    logging.info(f&#x27;CODE/RUN: {g.code_id}/{g.run_id}&#x27;)
+
+    try:
+        main()
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        raise e
+    finally:
+        logging.info(&#x27;Done&#x27;)
+        logging.shutdown()</code></pre><p id="1455534e-5f08-47c3-9853-bef861996afb" class="">code/main.pyファイルの実行は次のように行う。</p><pre id="0f87eeb0-8e17-4b44-94a1-289ae8b3d03c" class="code"><code>python3 code/main.py -n &#x27;～の実験&#x27;
+
+# または以下のように明示的に設定ファイルを指定することもできる
+# python3 code/main.py -c config/main.yml -n &#x27;～の実験&#x27;</code></pre><p id="4e8d4bf0-b7c6-4281-8264-ff491a9e0e42" class="">
+</p></div></article></body></html>
